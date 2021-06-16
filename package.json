@@ -1,0 +1,30 @@
+{
+  "name": "workout-tracker",
+  "version": "1.0.0",
+  "description": "Full stack application for tracking workouts built with Express for the server and Mongoose for the database.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "watch": "nodemon server.js",
+    "seed": "node seeders/seed.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Captain63/workout-tracker.git"
+  },
+  "author": "Stephen Roddewig (Captain63)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Captain63/workout-tracker/issues"
+  },
+  "homepage": "https://github.com/Captain63/workout-tracker#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.12.14",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
