@@ -21,8 +21,7 @@
   "homepage": "https://github.com/Captain63/workout-tracker#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "mongoose": "^5.12.14",
-    "morgan": "^1.10.0"
+    "mongoose": "^5.12.14"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
