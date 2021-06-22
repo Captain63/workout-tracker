@@ -24,9 +24,14 @@ require("./controllers/homeRoutes")(exerciseApp);
 // Sends exerciseApp object to exerciseRoutes serveData function
 require("./controllers/workoutRoutes")(exerciseApp);
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workoutdb", { 
-    useNewUrlParser: true
-});
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workoutdb", 
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: false
+    }
+);
 
 // Launch the server
 exerciseApp.listen(PORT, () => {
