@@ -1,20 +1,30 @@
 const db = require('../models');
 
 const serveData = app => {
-    // Retrieve previous workouts
-    app.get("/api/workouts", (req, res) => {
-        db.Workout.find({}, (err, data) => {
-            if (err) {
-              console.error(err);
-            } else {
-              res.status(200).send(data);
+    // Retrieve previous workout
+    app.get("/api/workouts", async (req, res) => {
+        try {
+          const dbData = await db.Workout.aggregate([
+            {
+              $addFields: {
+                totalDuration: { $sum: "$exercises.duration" }
+              }
             }
-        })
+          ]);
+
+          res.status(200).send(dbData);
+        } catch (err) {
+          console.error(err);
+          res.status(500).send(err);
+        }
     })
 
+    // 
     app.get("/api/workouts/range", async (req, res) => {
       try {
         const dbData = await db.Workout.aggregate([
+          { $sort: { day: -1 } },
+          { $limit: 7 },
           {
             $addFields: {
               totalDuration: { $sum: "$exercises.duration" }
@@ -22,33 +32,35 @@ const serveData = app => {
           }
         ])
 
-        res.send(dbData);
+        dbData.reverse();
+
+        res.status(200).send(dbData);
       } catch (err) {
         console.error(err);
-        res.status(500).json(err);
+        res.status(500).send(err);
       }
     })
 
     // Create new workout
-    app.post("/api/workouts", ({ body }, res) => {
-        db.Workout.create(body)
-          .then(dbUser => {
-            res.status(200).send(dbUser);
-          })
-          .catch(err => {
-            res.status(500).send(err);
-          })
+    app.post("/api/workouts", async ({ body }, res) => {
+      try {
+        const dbData = await db.Workout.create(body);
+        res.status(200).send(dbData);
+      } catch (err) {
+        console.error(err);
+        res.status(500).send(err);
+      }
     })
 
     // Update existing workout
-    app.put("/api/workouts/:id", (req, res) => {
-        db.Workout.findByIdAndUpdate({ _id: req.params.id }, req.body, (err, data) => {
-            if (err) {
-              console.error(err);
-            } else {
-              res.status(200).send(data);
-            }
-        })
+    app.put("/api/workouts/:id", async (req, res) => {
+      try {
+        const dbData = await db.Workout.updateOne({ _id: req.params.id }, { $push: { exercises: req.body }});
+        res.status(200).send(dbData);
+      } catch (err) {
+        console.error(err);
+        res.status(500).send(err);
+      }
     })
 }
 
