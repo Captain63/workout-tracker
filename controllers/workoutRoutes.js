@@ -27,7 +27,7 @@ const serveData = app => {
         }
     })
 
-    // Return last seven workouts
+    // Retrieve last seven workouts
     app.get("/api/workouts/range", async (req, res) => {
       try {
         const dbData = await db.Workout.aggregate([
@@ -44,6 +44,7 @@ const serveData = app => {
           }
         ])
 
+        // Reverse order of array so days come from earliest to latest
         dbData.reverse();
 
         res.status(200).send(dbData);
@@ -67,7 +68,13 @@ const serveData = app => {
     // Update existing workout
     app.put("/api/workouts/:id", async (req, res) => {
       try {
-        const dbData = await db.Workout.updateOne({ _id: req.params.id }, { $push: { exercises: req.body }});
+        const dbData = await db.Workout.findOneAndUpdate(
+          { _id: req.params.id }, 
+          { $push: { 
+            exercises: req.body 
+          }
+        });
+        
         res.status(200).send(dbData);
       } catch (err) {
         console.error(err);
