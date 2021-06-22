@@ -5,12 +5,20 @@ const serveData = app => {
     app.get("/api/workouts", async (req, res) => {
         try {
           const dbData = await db.Workout.aggregate([
+            { $sort: 
+              { 
+                day: -1 
+              }
+            },
+            { $limit: 1 },
             {
               $addFields: {
                 totalDuration: { $sum: "$exercises.duration" }
               }
             }
           ]);
+
+          console.log(dbData);
 
           res.status(200).send(dbData);
         } catch (err) {
@@ -19,11 +27,15 @@ const serveData = app => {
         }
     })
 
-    // 
+    // Return last seven workouts
     app.get("/api/workouts/range", async (req, res) => {
       try {
         const dbData = await db.Workout.aggregate([
-          { $sort: { day: -1 } },
+          { 
+            $sort: { 
+              day: -1 
+            } 
+          },
           { $limit: 7 },
           {
             $addFields: {
