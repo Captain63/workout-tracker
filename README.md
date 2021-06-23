@@ -36,7 +36,7 @@ See [package.json](./package.json) for full list of dependencies.
 ## Installation
 To run this application on your local machine, Node.js is _required_. Once cloned/downloaded from GitHub, enter ```npm i``` in command line to install the packages referenced under Libraries Used automatically. 
 
-Then, create the Mongo database by running the command ```use workoutdb```` in your MongoDB CLI. Next, seed the data by entering ```npm run seed``` in command line to add test data to the database. You should now be ready to launch the application by entering ```npm start```.
+Then, create the Mongo database by running the command ```use workoutdb``` in your MongoDB CLI. Next, seed the data by entering ```npm run seed``` in command line to add test data to the database. You should now be ready to launch the application by entering ```npm start```.
 
 ## License
 Permission is hereby granted, free of charge, to any person obtaining a copy of this Software and associated documentation files (the "Software"), to deal in the Software without  restriction, including without limitation the rights to use, copy, modify, merge, publish distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions.
