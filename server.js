@@ -2,12 +2,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
+const compression = require("compression");
 
 // Set port to environmental variable or local port
 const PORT = process.env.PORT || 3000;
 
 // Configure app to use Express server
 const exerciseApp = express();
+
+// Add compression for all server requests
+exerciseApp.use(compression());
 
 exerciseApp.use(morgan("dev"));
 
