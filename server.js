@@ -13,6 +13,15 @@ const exerciseApp = express();
 // Add compression for all server requests
 exerciseApp.use(compression());
 
+// Browser redirect
+exerciseApp.use(function forceLiveDomain(req, res, next) {
+    // If request has a domain for the Heroku deployment, redirect to base domain
+    if (req.get('Host').includes("herokuapp")) {
+      return res.redirect(301, `https://workout.stephentechblog.com${req.path}`);
+    }
+    return next();
+});
+
 exerciseApp.use(morgan("dev"));
 
 // Configure app to receive and send JSON objects
@@ -36,15 +45,6 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workoutdb",
         useFindAndModify: false
     }
 );
-
-// Browser redirects
-exerciseApp.use(function forceLiveDomain(req, res, next) {
-    // If request has a domain for the Heroku deployment, redirect to base domain
-    if (req.get('Host').includes("herokuapp")) {
-      return res.redirect(301, `https://workout.stephentechblog.com${req.path}`);
-    }
-    return next();
-});
 
 // Launch the server
 exerciseApp.listen(PORT, () => {
